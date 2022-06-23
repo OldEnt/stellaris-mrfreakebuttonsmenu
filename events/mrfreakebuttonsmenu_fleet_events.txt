@@ -1,0 +1,423 @@
+namespace = mrfreakebuttonsmenu_fleet
+
+# Example event to fire proper event. You could use decision instead for example.
+# In this example varaible will be saved in country scope, but this can be easily adjusted, just change fromfrom scope.
+planet_event = {
+	id = mrfreakebuttonsmenu_fleet.100
+	is_triggered_only = yes
+	hide_window = yes
+	immediate = {
+		owner = {
+			country_event = {
+				id = mrfreakebuttonsmenu_fleet.1
+				scopes = {
+					from = prev # In here planet
+					fromfrom = this # In here country
+				}
+			}
+		}
+	}
+}
+
+country_event = {
+	# Opens fleet menu
+	id = mrfreakebuttonsmenu_fleet.1
+	is_triggered_only = yes
+	title = mrfreakebuttonsmenu_fleet_1_title
+	desc = mrfreakebuttonsmenu_fleet_1_desc
+	custom_gui = mrfreakebuttonsmenu_ScalarEventWindow
+	diplomatic = yes
+	picture_event_data = {
+		portrait = root.owner_main_species
+		room = enclave_curator_room
+	}
+	# trigger = {
+	# 	exists = root
+	# 	exists = from
+	# 	from = {
+	# 		is_scope_type = fleet
+	# 	}
+	# }
+	immediate = {
+		fromfrom = {
+			if = {
+				limit = {
+					NOT = {
+						is_variable_set = mrfreakebuttonsmenu_modifier_var
+					}
+				}
+				set_variable = {
+					which = mrfreakebuttonsmenu_modifier_var # Optional, so it does not throw error.log for uset value.
+					value = 0
+				}
+			}
+		}
+	}
+# 	option = {
+# 		NAME = DELETE_FLEET
+# 		from = {
+# 			delete_fleet = this
+# 		}
+# 	}
+# 	option = {
+# 		NAME = change_ownership_to_target_country
+# 		allow = {
+# 			exists = event_target:target_country
+# 		}
+# 		from = {
+# 			set_owner = event_target:target_country
+# 		}
+# 	}
+# 	option = {
+# 		NAME = set_owner_target_country
+# 		allow = {
+# 			exists = event_target:target_country
+# 		}
+# 		from = {
+# 			save_global_event_target_as = target_country
+# 		}
+# 	}
+# 	option = {
+# 		NAME = ADD_CORVETTE
+# 		while = {
+# 			count = modifier_var
+# 			from = {
+# 				create_ship = {
+# 					random_existing_design = corvette
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		NAME = ADD_DESTROYER
+# 		while = {
+# 			count = modifier_var
+# 			from = {
+# 				create_ship = {
+# 					random_existing_design = destroyer
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		NAME = ADD_CRUISER
+# 		while = {
+# 			count = modifier_var
+# 			from = {
+# 				create_ship = {
+# 					random_existing_design = cruiser
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		NAME = ADD_BATTLESHIP
+# 		while = {
+# 			count = modifier_var
+# 			from = {
+# 				create_ship = {
+# 					random_existing_design = battleship
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		NAME = add_random_design_from_fleet
+# 		while = {
+# 			count = modifier_var
+# 			from = {
+# 				random_owned_ship = {
+# 					fleet = {
+# 						create_ship = {
+# 							design = prevprev.owner
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		NAME = set_target_country_as_player
+# 		allow = {
+# 			event_target:target_country = {
+# 				is_ai = no
+# 			}
+# 			from = {
+# 				owner = {
+# 					is_ai = yes
+# 				}
+# 			}
+# 		}
+# 		from = {
+# 			owner = {
+# 				if = {
+# 					limit = {
+# 						event_target:target_country = {
+# 							is_gm = yes
+# 						}
+# 					}
+# 					set_country_flag = mrfreakebuttonsmenu_assumed_control
+# 				}
+# 				set_player = event_target:target_country
+# 			}
+# 		}
+# 		event_target:target_country = {
+# 			remove_country_flag = mrfreakebuttonsmenu_assumed_control
+# 		}
+# 	}
+# 	option = {
+# 		NAME = mrfreakebuttonsmenu_set_formation_scale
+# 		custom_tooltip = "mrfreakebuttonsmenu_set_formation_scale_tooltip"
+# 		if = {
+# 			limit = {
+# 				is_variable_set = modifier_var
+# 			}
+# 			from = {
+# 				set_variable = {
+# 					which = mrfreakebuttonsmenu_var_set_formation_scale
+# 					value = prev.modifier_var
+# 				}
+# 				mrfreakebuttonsmenu_var_set_formation_scale_effect = yes
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		NAME = RECRUIT_LEADER
+# 		allow = {
+# 			from = {
+# 				NOT = {
+# 					exists = leader
+# 				}
+# 			}
+# 		}
+# 		from = {
+# 			fire_on_action = {
+# 				on_action = mrfreakebuttonsmenu_on_make_assign_fleet_leader
+# 				scopes = {
+# 					from = from
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		NAME = Exit
+# 	}
+# }
+
+# country_event = {
+# 	# Opens teleport fleet menu
+# 	id = mrfreakebuttonsmenu_fleet.3
+# 	is_triggered_only = yes
+# 	title = mrfreakebuttonsmenu_fleet.3.name
+# 	desc = mrfreakebuttonsmenu_fleet.3.desc
+# 	picture = GFX_evt_wormhole
+# 	immediate = {
+# 		if = {
+# 			limit = {
+# 				exists = event_target:target_megastructure
+# 			}
+# 			event_target:target_megastructure = {
+# 				solar_system = {
+# 					save_global_event_target_as = target_megastructure_solar_system
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				exists = event_target:target_country
+# 				event_target:target_country = {
+# 					exists = capital_scope
+# 				}
+# 			}
+# 			event_target:target_country = {
+# 				capital_scope = {
+# 					save_global_event_target_as = target_country_capital_scope					# Also used in teleport script below.
+# 					solar_system = {
+# 						save_global_event_target_as = target_country_capital_scope_solar_system
+# 					}
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				exists = event_target:target_planet
+# 			}
+# 			event_target:target_planet = {
+# 				solar_system = {
+# 					save_global_event_target_as = target_planet_solar_system
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				exists = event_target:target_fleet
+# 			}
+# 			event_target:target_fleet = {
+# 				solar_system = {
+# 					save_global_event_target_as = target_fleet_solar_system
+# 				}
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		name = mrfreakebuttonsmenu_fleet.3.teleport_radius
+# 		switch = {
+# 			trigger = has_global_flag
+# 			mrfreakebuttonsmenu_teleport_fleet_single = {
+# 				remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_single
+# 				set_global_flag = mrfreakebuttonsmenu_teleport_fleet_military
+# 			}
+# 			mrfreakebuttonsmenu_teleport_fleet_military = {
+# 				remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_military
+# 				set_global_flag = mrfreakebuttonsmenu_teleport_fleet_civilian
+# 			}
+# 			mrfreakebuttonsmenu_teleport_fleet_civilian = {
+# 				remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_civilian
+# 				set_global_flag = mrfreakebuttonsmenu_teleport_fleet_all
+# 			}
+# 			mrfreakebuttonsmenu_teleport_fleet_all = {
+# 				remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_all
+# 				set_global_flag = mrfreakebuttonsmenu_teleport_fleet_100_radius
+# 			}
+# 			mrfreakebuttonsmenu_teleport_fleet_100_radius = {
+# 				remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_100_radius
+# 				set_global_flag = mrfreakebuttonsmenu_teleport_fleet_single
+# 			}
+# 			default = {
+# 				set_global_flag = mrfreakebuttonsmenu_teleport_fleet_military
+# 			}
+# 		}
+# 		country_event = {
+# 			id = mrfreakebuttonsmenu_fleet.3
+# 		}
+# 	}
+# 	option = {
+# 		name = mrfreakebuttonsmenu_fleet.3.fleet
+# 		trigger = {
+# 			exists = event_target:target_fleet
+# 		}
+# 		fromfrom = {
+# 			mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 				TARGET = target_fleet
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		name = mrfreakebuttonsmenu_fleet.3.planet
+# 		trigger = {
+# 			exists = event_target:target_planet
+# 		}
+# 		fromfrom = {
+# 			mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 				TARGET = target_planet
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		name = mrfreakebuttonsmenu_fleet.3.megastructure
+# 		trigger = {
+# 			exists = event_target:target_megastructure
+# 		}
+# 		fromfrom = {
+# 			mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 				TARGET = target_megastructure
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		name = mrfreakebuttonsmenu_fleet.3.ambient_object
+# 		trigger = {
+# 			exists = event_target:target_ambient_object
+# 		}
+# 		fromfrom = {
+# 			mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 				TARGET = target_ambient_object
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		name = mrfreakebuttonsmenu_fleet.3.system
+# 		trigger = {
+# 			exists = event_target:target_system
+# 		}
+# 		event_target:target_system = {
+# 			random_system_planet = {
+# 				limit = {
+# 					is_primary_star = yes
+# 				}
+# 				save_global_event_target_as = target_system_primary_star
+# 			}
+# 		}
+# 		fromfrom = {
+# 			mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 				TARGET = target_system_primary_star
+# 			}
+# 		}
+# 	}
+# 	option = {
+# 		name = mrfreakebuttonsmenu_fleet.3.country
+# 		trigger = {
+# 			exists = event_target:target_country
+# 		}
+# 		fromfrom = {
+# 			clear_orders = yes
+# 			clear_fleet_actions = this
+# 		}
+# 		if = {
+# 			limit = {
+# 				event_target:target_country = {
+# 					exists = capital_scope
+# 				}
+# 			}
+# 			fromfrom = {
+# 				mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 					TARGET = target_country_capital_scope
+# 				}
+# 			}
+# 		}
+# 		else_if = {
+# 			limit = {
+# 				event_target:target_country = {
+# 					num_owned_planets > 0
+# 				}
+# 			}
+# 			event_target:target_country = {
+# 				random_owned_planet = {
+# 					save_global_event_target_as = target_country_capital_scope_random_planet
+# 				}
+# 			}
+# 			fromfrom = {
+# 				mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 					TARGET = target_country_capital_scope_random_planet
+# 				}
+# 			}
+# 		}
+# 		else_if = {
+# 			limit = {
+# 				event_target:target_country = {
+# 					num_fleets > 0
+# 				}
+# 			}
+# 			event_target:target_country = {
+# 				random_owned_fleet = {
+# 					save_global_event_target_as = target_country_capital_scope_random_fleet
+# 				}
+# 			}
+# 			fromfrom = {
+# 				mrfreakebuttonsmenu_teleport_fleet_effect = {
+# 					TARGET = target_country_capital_scope_random_fleet
+# 				}
+# 			}
+# 		}
+# 	}
+	option = {
+		name = CANCEL
+		# hidden_effect = {
+		# 	remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_single
+		# 	remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_military
+		# 	remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_civilian
+		# 	remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_all
+		# 	remove_global_flag = mrfreakebuttonsmenu_teleport_fleet_100_radius
+		# }
+	}
+}
